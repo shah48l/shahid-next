@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Loader from "@/components/Loader";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
-import { LogoLoop, Skills, Experience, Projects, EducationSection, Contact, SignatureCard } from "@/components/Sections";
+import { LogoLoop, Skills, Experience, Projects, EducationSection, SignatureCard } from "@/components/Sections";
 
 // ReactBits SplashCursor — WebGL fluid simulation
 const SplashCursor = dynamic(() => import("@/components/reactbits/SplashCursor"), { ssr: false });
@@ -59,7 +59,6 @@ export default function Home() {
             <Experience />
             <Projects />
             <EducationSection />
-            <Contact />
             <SignatureCard />
           </main>
 

@@ -26,3 +26,7 @@
 
 /* ProfileCard theme overrides */
 .profile-card { --bg-color: #12121c; }
+
+/* Loader boot prompt blink */
+@keyframes loader-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.15; } }
+.loader-blink { animation: loader-blink 1.2s step-start infinite; }

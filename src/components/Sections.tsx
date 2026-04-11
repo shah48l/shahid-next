@@ -186,6 +186,13 @@ export function Contact() {
 }
 
 export function SignatureCard() {
+  const contactLinks = [
+    { href: `mailto:${PROFILE.email}`, icon: <MailSvg />, label: PROFILE.email },
+    { href: PROFILE.github, icon: <GhSvg />, label: "GitHub", ext: true },
+    { href: PROFILE.linkedin, icon: <LiSvg />, label: "LinkedIn", ext: true },
+    { href: `tel:${PROFILE.phone}`, icon: <PhSvg />, label: PROFILE.phone },
+  ];
+
   return (
     <section className="py-20 md:py-28 px-5 md:px-10 max-w-[1280px] mx-auto">
       <div
@@ -209,8 +216,27 @@ export function SignatureCard() {
               If this left an impression, let&apos;s build something memorable together.
             </h2>
             <p className="mt-5 max-w-[440px]" style={{ fontSize: 17, lineHeight: 1.85, color: "#cbb5a8" }}>
-              If you&apos;re amazed by what you see, do contact me.
+              I&apos;m always excited to connect with engineers, founders, and teams building impactful products.
             </p>
+
+            {/* Contact links */}
+            <div className="flex flex-wrap gap-3 mt-8">
+              {contactLinks.map(l => (
+                <Magnet key={l.label} padding={40} magnetStrength={2}>
+                  <a
+                    href={l.href}
+                    target={l.ext ? "_blank" : undefined}
+                    rel={l.ext ? "noopener" : undefined}
+                    className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl no-underline transition-all hover:-translate-y-0.5"
+                    style={{ ...mono, fontSize: 13, color: "#f0ece6", background: "rgba(18,12,10,0.9)", border: "1px solid rgba(90,56,48,0.5)", boxShadow: "0 8px 24px rgba(0,0,0,0.2)" }}
+                    onMouseEnter={() => sfx?.playHover()}
+                    onClick={() => sfx?.playClick()}
+                  >
+                    {l.icon}{l.label}
+                  </a>
+                </Magnet>
+              ))}
+            </div>
           </div>
 
           <div className="flex justify-center lg:justify-end">

@@ -1,10 +1,11 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { gsap } from "@/hooks/useGsap";
 import SplitText from "@/components/reactbits/SplitText";
+import { sfx } from "@/lib/audio";
 
 const ASCII = `
- ███████╗██╗  ██╗ █████╗ ██╗  ██╗██╗██████╗ 
+ ███████╗██╗  ██╗ █████╗ ██╗  ██╗██╗██████╗
  ██╔════╝██║  ██║██╔══██╗██║  ██║██║██╔══██╗
  ███████╗███████║███████║███████║██║██║  ██║
  ╚════██║██╔══██║██╔══██║██╔══██║██║██║  ██║
@@ -15,13 +16,29 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const [gone, setGone] = useState(false);
   const [showSplit, setShowSplit] = useState(false);
+  const [started, setStarted] = useState(false);
 
+  const boot = useCallback(() => {
+    if (started) return;
+    setStarted(true);
+    sfx?.playBoot();
+  }, [started]);
+
+  // Keyboard shortcut: any key boots
   useEffect(() => {
+    const onKey = () => boot();
+    window.addEventListener("keydown", onKey, { once: true });
+    return () => window.removeEventListener("keydown", onKey);
+  }, [boot]);
+
+  // Run loading animation only after user boots
+  useEffect(() => {
+    if (!started) return;
     const el = ref.current;
     if (!el) return;
 
     const tl = gsap.timeline({
-      delay: 0.2,
+      delay: 0.3,
       onComplete: () => {
         gsap.to(el, {
           opacity: 0, duration: 0.6, ease: "power2.inOut",
@@ -35,13 +52,29 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
       .to(el.querySelector(".l-bar"), { opacity: 1, duration: 0.3 }, 1.5)
       .to(el.querySelector(".l-fill"), { width: "100%", duration: 2, ease: "power2.inOut" }, 1.6)
       .to({}, { duration: 0.4 });
-  }, [onComplete]);
+  }, [started, onComplete]);
 
   if (gone) return null;
 
   return (
-    <div ref={ref} className="fixed inset-0 z-[99999] flex flex-col items-center justify-center" style={{ background: "#060609" }}>
-      <pre className="l-ascii opacity-0" style={{ fontFamily: "var(--mono)", fontSize: "clamp(5px,1vw,12px)", color: "#00ffaa", whiteSpace: "pre", lineHeight: 1.2, textAlign: "center", textShadow: "0 0 20px rgba(0,255,170,0.25)" }}>
+    <div
+      ref={ref}
+      className="fixed inset-0 z-[99999] flex flex-col items-center justify-center cursor-pointer select-none"
+      style={{ background: "#060609" }}
+      onClick={boot}
+    >
+      <pre
+        className="l-ascii opacity-0"
+        style={{
+          fontFamily: "var(--mono)",
+          fontSize: "clamp(5px,1vw,12px)",
+          color: "#00ffaa",
+          whiteSpace: "pre",
+          lineHeight: 1.2,
+          textAlign: "center",
+          textShadow: "0 0 20px rgba(0,255,170,0.25)",
+        }}
+      >
         {ASCII}
       </pre>
 
@@ -63,9 +96,24 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
         )}
       </div>
 
-      <div className="l-bar opacity-0 mt-4" style={{ width: 200, height: 2, background: "#1f1f30", borderRadius: 1, overflow: "hidden" }}>
-        <div className="l-fill" style={{ height: "100%", width: 0, background: "#00ffaa", borderRadius: 1, boxShadow: "0 0 12px rgba(0,255,170,0.25)" }} />
-      </div>
+      {!started ? (
+        <div
+          className="mt-8 loader-blink"
+          style={{
+            fontFamily: "var(--mono)",
+            fontSize: 12,
+            color: "#00ffaa",
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+          }}
+        >
+          [ click or press any key to boot ]
+        </div>
+      ) : (
+        <div className="l-bar opacity-0 mt-4" style={{ width: 200, height: 2, background: "#1f1f30", borderRadius: 1, overflow: "hidden" }}>
+          <div className="l-fill" style={{ height: "100%", width: 0, background: "#00ffaa", borderRadius: 1, boxShadow: "0 0 12px rgba(0,255,170,0.25)" }} />
+        </div>
+      )}
     </div>
   );
 }
