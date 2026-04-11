@@ -7,7 +7,7 @@ type WindowWithWebkitAudio = Window & { webkitAudioContext?: AudioContextCtor };
 // ═══ SOUND EFFECTS ═══
 class SFXEngine {
   private ctx: AudioContext | null = null;
-  enabled = false;
+  enabled = true;
 
   private getCtx() {
     const audioContextCtor = window.AudioContext || (window as WindowWithWebkitAudio).webkitAudioContext;
