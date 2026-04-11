@@ -6,6 +6,27 @@ type JazzToggleProps = {
   compact?: boolean;
 };
 
+const MusicIcon = ({ spinning }: { spinning: boolean }) => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+    style={{ animation: spinning ? "spin 2.4s linear infinite" : "none" }}>
+    <circle cx="12" cy="12" r="2" />
+    <path d="M12 2a10 10 0 1 0 10 10" />
+    <path d="M12 2v4M16 3l-4 3" />
+  </svg>
+);
+
+const BarsIcon = ({ active }: { active: boolean }) => (
+  <span className="flex items-end gap-[2.5px]" style={{ height: 14 }}>
+    {[5, 10, 7, 12, 4].map((h, i) => (
+      <span key={i} className="w-[2px] rounded-sm bg-current"
+        style={{
+          height: active ? h : 3,
+          transition: `height 0.2s ease ${i * 0.04}s`,
+        }} />
+    ))}
+  </span>
+);
+
 export default function JazzToggle({ compact = false }: JazzToggleProps) {
   const [playing, setPlaying] = useState(() => Boolean(jazz?.playing));
   const [sfxOn, setSfxOn] = useState(() => Boolean(sfx?.enabled));
@@ -31,12 +52,21 @@ export default function JazzToggle({ compact = false }: JazzToggleProps) {
     return () => window.removeEventListener("scroll", scrollHandler);
   }, [sfxOn]);
 
-  const buttonBase = {
-    fontFamily: "var(--mono, monospace)",
-    background: "rgba(18,18,28,0.92)",
-    border: "1px solid #1f1f30",
-    backdropFilter: "blur(16px)",
-  } as const;
+  const btnStyle = (on: boolean) => ({
+    width: 36,
+    height: 36,
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    border: `1px solid ${on ? "rgba(0,255,170,0.5)" : "#1f1f30"}`,
+    background: on ? "rgba(0,255,170,0.07)" : "rgba(18,18,28,0.92)",
+    color: on ? "#00ffaa" : "#4a4944",
+    boxShadow: on ? "0 0 12px rgba(0,255,170,0.12)" : "none",
+    transition: "border-color 0.2s, background 0.2s, color 0.2s, box-shadow 0.2s",
+    flexShrink: 0,
+  } as const);
 
   if (compact) {
     return (
@@ -44,31 +74,21 @@ export default function JazzToggle({ compact = false }: JazzToggleProps) {
         <button
           onClick={toggleJazz}
           onMouseEnter={() => sfx?.playHover()}
-          className={`flex min-h-[40px] items-center justify-center gap-2 rounded-full px-3 py-2 text-[10px] sm:text-[11px] cursor-pointer transition-all ${playing ? "text-[#00ffaa] shadow-[0_0_20px_rgba(0,255,170,0.12)]" : "text-[#8d8a84]"}`}
-          style={{ ...buttonBase, borderColor: playing ? "#00ffaa" : "#1f1f30" }}
+          style={btnStyle(playing)}
           aria-label={playing ? "Turn music off" : "Turn music on"}
           title='Music: "Lobby Time" by Kevin MacLeod (incompetech.com), CC BY 3.0'
         >
-          <span className={`w-4 h-4 rounded-full border-2 border-current flex items-center justify-center ${playing ? "animate-spin" : ""}`} style={{ animationDuration: "2.4s" }}>
-            <span className="w-1 h-1 rounded-full bg-current" />
-          </span>
-          <span className="hidden sm:inline">{playing ? "Music On" : "Music Off"}</span>
-          <span className="sm:hidden">Music</span>
+          <MusicIcon spinning={playing} />
         </button>
 
         <button
           onClick={toggleSfx}
           onMouseEnter={() => sfx?.playHover()}
-          className={`flex min-h-[40px] items-center justify-center gap-2 rounded-full px-3 py-2 text-[10px] sm:text-[11px] cursor-pointer transition-all ${sfxOn ? "text-[#00ffaa]" : "text-[#8d8a84]"}`}
-          style={{ ...buttonBase, borderColor: sfxOn ? "#00ffaa" : "#1f1f30" }}
-          aria-label={sfxOn ? "Turn sound effects off" : "Turn sound effects on"}
+          style={btnStyle(sfxOn)}
+          aria-label={sfxOn ? "Turn SFX off" : "Turn SFX on"}
+          title="Sound effects"
         >
-          <span className="flex items-end gap-[2px] h-3">
-            {[4, 8, 5, 10].map((h, i) => (
-              <span key={i} className="w-[2px] rounded-sm bg-current transition-all" style={{ height: sfxOn ? h : 3 }} />
-            ))}
-          </span>
-          <span>{sfxOn ? "SFX On" : "SFX Off"}</span>
+          <BarsIcon active={sfxOn} />
         </button>
       </div>
     );
@@ -84,26 +104,20 @@ export default function JazzToggle({ compact = false }: JazzToggleProps) {
           <button
             onClick={toggleJazz}
             onMouseEnter={() => sfx?.playHover()}
-            className={`flex min-h-[48px] items-center justify-center gap-2 rounded-2xl px-3 py-3 text-[11px] cursor-pointer transition-all ${playing ? "text-[#00ffaa] shadow-[0_0_20px_rgba(0,255,170,0.12)]" : "text-[#7a7872]"}`}
-            style={{ ...buttonBase, borderColor: playing ? "#00ffaa" : "#1f1f30" }}
+            className={`flex min-h-[48px] items-center justify-center gap-2.5 rounded-2xl px-3 py-3 text-[11px] cursor-pointer transition-all ${playing ? "text-[#00ffaa]" : "text-[#7a7872]"}`}
+            style={{ fontFamily: "var(--mono)", background: "rgba(18,18,28,0.92)", border: `1px solid ${playing ? "#00ffaa" : "#1f1f30"}` }}
           >
-            <span className={`w-5 h-5 rounded-full border-2 border-current flex items-center justify-center ${playing ? "animate-spin" : ""}`} style={{ animationDuration: "2.4s" }}>
-              <span className="w-1 h-1 rounded-full bg-current" />
-            </span>
+            <MusicIcon spinning={playing} />
             {playing ? "Music On" : "Music Off"}
           </button>
 
           <button
             onClick={toggleSfx}
             onMouseEnter={() => sfx?.playHover()}
-            className={`flex min-h-[48px] items-center justify-center gap-2 rounded-2xl px-3 py-3 text-[11px] cursor-pointer transition-all ${sfxOn ? "text-[#00ffaa]" : "text-[#7a7872]"}`}
-            style={{ ...buttonBase, borderColor: sfxOn ? "#00ffaa" : "#1f1f30" }}
+            className={`flex min-h-[48px] items-center justify-center gap-2.5 rounded-2xl px-3 py-3 text-[11px] cursor-pointer transition-all ${sfxOn ? "text-[#00ffaa]" : "text-[#7a7872]"}`}
+            style={{ fontFamily: "var(--mono)", background: "rgba(18,18,28,0.92)", border: `1px solid ${sfxOn ? "#00ffaa" : "#1f1f30"}` }}
           >
-            <span className="flex items-end gap-[2px] h-3">
-              {[4, 8, 5, 10].map((h, i) => (
-                <span key={i} className="w-[2px] rounded-sm bg-current transition-all" style={{ height: sfxOn ? h : 3 }} />
-              ))}
-            </span>
+            <BarsIcon active={sfxOn} />
             {sfxOn ? "SFX On" : "SFX Off"}
           </button>
         </div>
