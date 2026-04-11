@@ -5,3 +5,8 @@ node_modules
 .env*
 .vscode
 .idea
+render.yaml
+vercel.json
+netlify.toml
+.node-version
+.nvmrc
