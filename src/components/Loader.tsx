@@ -104,7 +104,7 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
         className="l-ascii opacity-0"
         style={{
           fontFamily: "var(--mono)",
-          fontSize: "clamp(5px,1vw,12px)",
+          fontSize: "clamp(7px,2vw,12px)",
           color: "#00ffaa",
           whiteSpace: "pre",
           lineHeight: 1.2,
@@ -140,14 +140,16 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
             className="loader-blink"
             style={{
               fontFamily: "var(--mono)",
-              fontSize: 16,
+              fontSize: "clamp(11px,3.5vw,16px)",
               color: "#00ffaa",
-              letterSpacing: "0.18em",
+              letterSpacing: "0.14em",
               textTransform: "uppercase",
               textShadow: "0 0 18px rgba(0,255,170,0.35)",
+              textAlign: "center",
+              padding: "0 16px",
             }}
           >
-            [ click or press any key to boot ]
+            [ tap or press any key to boot ]
           </div>
         </div>
       ) : (
