@@ -1,17 +1,57 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import JazzToggle from "@/components/JazzToggle";
 
 const NAV_ITEMS = [
-  { label: "Skills", href: "#skills" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Education", href: "#education" },
-  { label: "Contact", href: "#contact" },
+  { label: "Skills", href: "#skills", id: "skills" },
+  { label: "Experience", href: "#experience", id: "experience" },
+  { label: "Projects", href: "#projects", id: "projects" },
+  { label: "Education", href: "#education", id: "education" },
+  { label: "Contact", href: "#contact", id: "contact" },
 ];
 
 export default function Nav() {
   const [logoHovered, setLogoHovered] = useState(false);
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  // Track which section is in view
+  useEffect(() => {
+    const sectionIds = NAV_ITEMS.map(i => i.id);
+    const observers: IntersectionObserver[] = [];
+
+    // Map of section → whether it's intersecting
+    const visible = new Map<string, number>();
+
+    const pick = () => {
+      // Pick the section with the highest intersection ratio that is visible
+      let best: string | null = null;
+      let bestRatio = 0;
+      visible.forEach((ratio, id) => {
+        if (ratio > bestRatio) { bestRatio = ratio; best = id; }
+      });
+      setActiveId(best);
+    };
+
+    sectionIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          visible.set(id, entry.isIntersecting ? entry.intersectionRatio : 0);
+          pick();
+        },
+        {
+          // Fires when section occupies the middle band of the viewport
+          rootMargin: "-15% 0px -55% 0px",
+          threshold: [0, 0.1, 0.25, 0.5, 0.75, 1],
+        }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+
+    return () => observers.forEach(o => o.disconnect());
+  }, []);
 
   return (
     <nav
@@ -92,7 +132,7 @@ export default function Nav() {
             <a
               key={item.href}
               href={item.href}
-              className="nav-link px-4 py-2 no-underline"
+              className={`nav-link px-4 py-2 no-underline${activeId === item.id ? " active" : ""}`}
               style={{
                 fontFamily: "var(--mono)",
                 fontSize: 11,
@@ -121,13 +161,13 @@ export default function Nav() {
           <a
             key={item.href}
             href={item.href}
-            className="shrink-0 px-3 py-1.5 rounded-full no-underline"
+            className="shrink-0 px-3 py-1.5 rounded-full no-underline transition-all"
             style={{
               fontFamily: "var(--mono)",
               fontSize: 11,
-              color: "#b8b5ad",
-              background: "rgba(18,18,28,0.92)",
-              border: "1px solid #1f1f30",
+              color: activeId === item.id ? "#00ffaa" : "#b8b5ad",
+              background: activeId === item.id ? "rgba(0,255,170,0.08)" : "rgba(18,18,28,0.92)",
+              border: `1px solid ${activeId === item.id ? "rgba(0,255,170,0.3)" : "#1f1f30"}`,
             }}
           >
             {item.label}

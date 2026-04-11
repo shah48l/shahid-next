@@ -53,6 +53,16 @@
   transform: translateX(-50%) scaleX(1);
 }
 
+/* Active section — underline stays on + brighter glow */
+.nav-link.active {
+  color: #00ffaa;
+}
+.nav-link.active::after {
+  transform: translateX(-50%) scaleX(1);
+  background: linear-gradient(90deg, transparent, #00ffaa, transparent);
+  box-shadow: 0 0 14px rgba(0, 255, 170, 0.8);
+}
+
 /* Music icon spin */
 @keyframes spin { to { transform: rotate(360deg); } }
 
