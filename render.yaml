@@ -2,9 +2,15 @@ services:
   - type: web
     name: shahid-portfolio
     runtime: node
+    region: singapore
     plan: free
-    buildCommand: npm ci && npm run build
-    startCommand: npm start
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
     envVars:
+      - key: NODE_VERSION
+        value: 20.19.0
       - key: NODE_ENV
         value: production
+      - key: PORT
+        value: 3000
+    healthCheckPath: /
