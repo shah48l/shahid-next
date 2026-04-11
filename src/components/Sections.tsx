@@ -251,7 +251,8 @@ export function SignatureCard() {
                 miniAvatarUrl="/vAGA.png"
                 showUserInfo
                 enableTilt
-                enableMobileTilt={false}
+                enableMobileTilt={true}
+                mobileTiltSensitivity={8}
                 onContactClick={() => {
                   sfx?.playClick();
                   window.location.href = `mailto:${PROFILE.email}`;
