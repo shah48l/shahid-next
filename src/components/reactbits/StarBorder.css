@@ -5,6 +5,14 @@
   overflow: hidden;
 }
 
+/* Allow full-height stretching when parent passes h-full */
+.star-border-container.h-full {
+  height: 100%;
+}
+.star-border-container.h-full .inner-content {
+  height: 100%;
+}
+
 .border-gradient-bottom {
   position: absolute;
   width: 300%;
