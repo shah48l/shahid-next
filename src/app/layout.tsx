@@ -15,13 +15,33 @@ const jetBrainsMono = JetBrains_Mono({
   fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
 });
 
+const SITE_URL = "https://shahid-portfolio.onrender.com"; // ← update once deployed
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Shahid J — Software Engineer",
-  description: "Backend engineer specializing in Python, Django, FastAPI, REST APIs, and ML integration.",
+  description:
+    "Backend engineer specializing in Python, Django, FastAPI, REST APIs, and ML integration. Building real-time systems and clean APIs.",
   icons: {
     icon: "/icon.svg",
     shortcut: "/icon.svg",
     apple: "/vAGA.png",
+  },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    title: "Shahid J — Software Engineer",
+    description:
+      "Backend engineer specializing in Python, Django, FastAPI, REST APIs, and ML integration.",
+    siteName: "shahid.dev",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Shahid J — Software Engineer" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Shahid J — Software Engineer",
+    description:
+      "Backend engineer specializing in Python, Django, FastAPI, REST APIs, and ML integration.",
+    images: ["/opengraph-image"],
   },
 };
 
