@@ -4,7 +4,7 @@ export const PROFILE = {
   tagline: "Backend Systems · APIs · ML Integration",
   email: "mjshahid48@gmail.com",
   phone: "+91 87786 17605",
-  github: "https://github.com/shahidj",
+  github: "https://github.com/shah48l",
   linkedin: "https://www.linkedin.com/in/shahidj2004/",
   location: "Hyderabad, India",
   summary: "Building T-shaped backend systems with depth in Python, Django/DRF, and clean architecture. I craft real-time, production-grade APIs and integrate Machine Learning at scale.",
