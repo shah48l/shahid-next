@@ -53,8 +53,8 @@ export function Skills() {
       <SH num="01." title="Tech Arsenal" />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {SKILLS.map(s => (
-          <div key={s.name} className="sk-wrap" onMouseEnter={() => sfx?.playCardHover()}>
-            <SpotlightCard className="h-full" spotlightColor="rgba(0,255,170,0.12)">
+          <div key={s.name} className="sk-wrap h-full" onMouseEnter={() => sfx?.playCardHover()}>
+            <SpotlightCard className="h-full" spotlightColor="rgba(0,255,170,0.15)">
               <div className="p-7 md:p-8 h-full" style={{ background: "transparent", borderRadius: 16 }}>
                 <span className="text-[32px] block mb-5 w-fit">{s.icon}</span>
                 <h3 className="text-[22px] font-semibold mb-3" style={{ color: "#f0ece6" }}>{s.name}</h3>
@@ -83,7 +83,7 @@ export function Experience() {
         {EXPERIENCE.map(exp => (
           <div key={exp.company} className="tl-item pl-12 mb-14 relative" onMouseEnter={() => sfx?.playHover()}>
             <div className="tl-dot absolute -left-[7px] top-1.5 w-4 h-4 rounded-full" style={{ background: "#060609", border: "2px solid #00ffaa", boxShadow: "0 0 16px rgba(0,255,170,0.12)" }} />
-            <div className="rounded-[22px] p-6 md:p-7" style={{ background: "linear-gradient(180deg, rgba(14,16,24,0.9), rgba(8,9,15,0.96))", border: "1px solid rgba(31,31,48,0.9)", boxShadow: "0 24px 70px rgba(0,0,0,0.18)" }}>
+            <div className="rounded-[22px] p-6 md:p-7 exp-card-inner" style={{ background: "linear-gradient(180deg, rgba(14,16,24,0.9), rgba(8,9,15,0.96))", border: "1px solid rgba(31,31,48,0.9)", boxShadow: "0 24px 70px rgba(0,0,0,0.18)" }}>
               <div style={{ ...mono, fontSize: 12, color: "#00ffaa", letterSpacing: "0.08em", marginBottom: 10 }}>{exp.period.toUpperCase()}</div>
               <h3 style={{ fontSize: 24, fontWeight: 700, marginBottom: 6 }}>{exp.company}</h3>
               <div style={{ fontSize: 16, color: "#d0cac1", marginBottom: 6 }}>{exp.role}</div>
@@ -186,8 +186,14 @@ export function Contact() {
 }
 
 export function SignatureCard() {
+  const contactLinks = [
+    { href: PROFILE.github, icon: <GhSvg />, label: "GitHub", ext: true },
+    { href: PROFILE.linkedin, icon: <LiSvg />, label: "LinkedIn", ext: true },
+    { href: `tel:${PROFILE.phone}`, icon: <PhSvg />, label: PROFILE.phone },
+  ];
+
   return (
-    <section className="py-20 md:py-28 px-5 md:px-10 max-w-[1280px] mx-auto">
+    <section id="contact" className="py-20 md:py-28 px-5 md:px-10 max-w-[1280px] mx-auto">
       <div
         className="rounded-[32px] px-6 py-8 md:px-10 md:py-12"
         style={{
@@ -209,8 +215,27 @@ export function SignatureCard() {
               If this left an impression, let&apos;s build something memorable together.
             </h2>
             <p className="mt-5 max-w-[440px]" style={{ fontSize: 17, lineHeight: 1.85, color: "#cbb5a8" }}>
-              If you&apos;re amazed by what you see, do contact me.
+              I&apos;m always excited to connect with engineers, founders, and teams building impactful products.
             </p>
+
+            {/* Contact links */}
+            <div className="flex flex-wrap gap-3 mt-8">
+              {contactLinks.map(l => (
+                <Magnet key={l.label} padding={40} magnetStrength={2}>
+                  <a
+                    href={l.href}
+                    target={l.ext ? "_blank" : undefined}
+                    rel={l.ext ? "noopener" : undefined}
+                    className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl no-underline transition-all hover:-translate-y-0.5"
+                    style={{ ...mono, fontSize: 13, color: "#f0ece6", background: "rgba(18,12,10,0.9)", border: "1px solid rgba(90,56,48,0.5)", boxShadow: "0 8px 24px rgba(0,0,0,0.2)" }}
+                    onMouseEnter={() => sfx?.playHover()}
+                    onClick={() => sfx?.playClick()}
+                  >
+                    {l.icon}{l.label}
+                  </a>
+                </Magnet>
+              ))}
+            </div>
           </div>
 
           <div className="flex justify-center lg:justify-end">
@@ -226,7 +251,8 @@ export function SignatureCard() {
                 miniAvatarUrl="/vAGA.png"
                 showUserInfo
                 enableTilt
-                enableMobileTilt={false}
+                enableMobileTilt={true}
+                mobileTiltSensitivity={8}
                 onContactClick={() => {
                   sfx?.playClick();
                   window.location.href = `mailto:${PROFILE.email}`;

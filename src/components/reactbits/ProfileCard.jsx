@@ -269,21 +269,28 @@ const ProfileCardComponent = ({
     shell.addEventListener('pointermove', pointerMoveHandler);
     shell.addEventListener('pointerleave', pointerLeaveHandler);
 
+    // Detect whether the browser requires an explicit permission gesture (iOS 13+)
+    const needsPermission =
+      enableMobileTilt &&
+      typeof window.DeviceMotionEvent !== 'undefined' &&
+      typeof window.DeviceMotionEvent.requestPermission === 'function';
+
+    // Android / non-iOS: auto-start gyroscope immediately (no permission needed)
+    if (enableMobileTilt && !needsPermission) {
+      window.addEventListener('deviceorientation', deviceOrientationHandler);
+    }
+
+    // iOS: ask for permission on first tap
     const handleClick = () => {
-      if (!enableMobileTilt || location.protocol !== 'https:') return;
-      const anyMotion = window.DeviceMotionEvent;
-      if (anyMotion && typeof anyMotion.requestPermission === 'function') {
-        anyMotion
-          .requestPermission()
-          .then(state => {
-            if (state === 'granted') {
-              window.addEventListener('deviceorientation', deviceOrientationHandler);
-            }
-          })
-          .catch(console.error);
-      } else {
-        window.addEventListener('deviceorientation', deviceOrientationHandler);
-      }
+      if (!enableMobileTilt || !needsPermission) return;
+      window.DeviceMotionEvent
+        .requestPermission()
+        .then(state => {
+          if (state === 'granted') {
+            window.addEventListener('deviceorientation', deviceOrientationHandler);
+          }
+        })
+        .catch(console.error);
     };
     shell.addEventListener('click', handleClick);
 

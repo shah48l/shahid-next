@@ -7,7 +7,7 @@ type WindowWithWebkitAudio = Window & { webkitAudioContext?: AudioContextCtor };
 // ═══ SOUND EFFECTS ═══
 class SFXEngine {
   private ctx: AudioContext | null = null;
-  enabled = false;
+  enabled = true;
 
   private getCtx() {
     const audioContextCtor = window.AudioContext || (window as WindowWithWebkitAudio).webkitAudioContext;
@@ -59,6 +59,31 @@ class SFXEngine {
       g.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
       o.connect(g).connect(c.destination); o.start(t); o.stop(t + 0.1);
     });
+  }
+
+  playBoot() {
+    // Always plays regardless of enabled — one-time startup chime
+    try {
+      const c = this.getCtx();
+      // Ascending C-major arpeggio: C4 → E4 → G4 → C5
+      const notes = [
+        { freq: 261.63, t: 0,    dur: 0.35 },
+        { freq: 329.63, t: 0.18, dur: 0.35 },
+        { freq: 392.00, t: 0.36, dur: 0.35 },
+        { freq: 523.25, t: 0.54, dur: 0.70 },
+      ];
+      notes.forEach(({ freq, t, dur }) => {
+        const o = c.createOscillator(), g = c.createGain();
+        o.type = "sine";
+        o.frequency.value = freq;
+        const s = c.currentTime + t;
+        g.gain.setValueAtTime(0, s);
+        g.gain.linearRampToValueAtTime(0.13, s + 0.04);
+        g.gain.exponentialRampToValueAtTime(0.001, s + dur);
+        o.connect(g).connect(c.destination);
+        o.start(s); o.stop(s + dur + 0.01);
+      });
+    } catch { /* silently fail if no audio context */ }
   }
 
   toggle() { this.enabled = !this.enabled; return this.enabled; }

@@ -86,7 +86,7 @@ export default function Hero() {
             {STATS.map(s => <div key={s.label} className="h-stat"><Counter value={s.value} label={s.label} /></div>)}
           </div>
         </div>
-        <div className="h-term hidden lg:block flex-shrink-0"><Terminal /></div>
+        <div className="h-term w-full lg:w-auto flex-shrink-0"><Terminal /></div>
       </div>
     </section>
   );
