@@ -1,145 +1,278 @@
-# Shahid J Portfolio
+<div align="center">
 
-A polished, animated developer portfolio built with Next.js 16, React 19, TypeScript, Tailwind CSS v4, and GSAP.
+```
+ ____  _           _     _     _       _
+/ ___|| |__   __ _| |__ (_) __| |   _ | |
+\___ \| '_ \ / _` | '_ \| |/ _` |  (_)| |
+ ___) | | | | (_| | | | | | (_| |   _  | |
+|____/|_| |_|\__,_|_| |_|_|\__,_|  (_) |_|
+```
 
-This project is designed as a modern personal brand site for Shahid J, highlighting backend engineering, APIs, machine learning work, and selected projects through a high-motion, premium UI.
+# Shahid J — Portfolio
 
-## Overview
+**Backend Engineer · Python · Django · FastAPI · ML Integration**
 
-The site combines production-focused engineering content with a visually rich frontend experience:
+[![Available](https://img.shields.io/badge/Status-Available%20for%20Opportunities-00ffaa?style=for-the-badge&labelColor=0d0d1a)](mailto:mjshahid48@gmail.com)
+[![Location](https://img.shields.io/badge/Location-Hyderabad%2C%20India-5eaaff?style=for-the-badge&labelColor=0d0d1a)](https://github.com/shah48l)
 
-- A large animated hero section with interactive typography and terminal-style presentation
-- A custom header with Gooey navigation and audio controls
-- Skills, experience, projects, education, and contact sections driven by a single portfolio data source
-- ReactBits-inspired motion components, spotlight cards, and star-border styling
-- Responsive behavior tuned for desktop and mobile
+[![Next.js](https://img.shields.io/badge/Next.js-16.2-black?style=flat-square&logo=next.js)](https://nextjs.org)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://typescriptlang.org)
+[![Tailwind](https://img.shields.io/badge/Tailwind-v4-38BDF8?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![GSAP](https://img.shields.io/badge/GSAP-3.14-88CE02?style=flat-square&logo=greensock&logoColor=black)](https://gsap.com)
+[![MIT License](https://img.shields.io/badge/License-MIT-b18cff?style=flat-square)](LICENSE)
 
-## Tech Stack
+<br/>
 
-- Next.js 16.2.3
-- React 19.2.4
-- TypeScript 5
-- Tailwind CSS v4
-- GSAP
-- ESLint 9
+[**Live Demo**](https://github.com/shah48l/shahid-next) · [**LinkedIn**](https://linkedin.com/in/shahidj2004) · [**GitHub**](https://github.com/shah48l) · [**Email**](mailto:mjshahid48@gmail.com)
 
-## Getting Started
+</div>
 
-Install dependencies and start the development server:
+---
+
+<div align="center">
+
+## `$ whoami`
+
+</div>
+
+```python
+profile = {
+    "name":     "Shahid J",
+    "role":     "Backend Software Engineer",
+    "stack":    ["Python", "Django", "FastAPI", "PostgreSQL", "Redis", "Docker", "AWS"],
+    "ml":       ["PyTorch", "U-Net", "Gemini API", "OpenCV", "TorchScript"],
+    "frontend": ["React", "Next.js", "TypeScript", "Tailwind CSS"],
+    "stats": {
+        "experience":    "2 years",
+        "latency_cut":   "60%",       # FluentX real-time messaging
+        "dice_score":    "91%",       # Medical image segmentation
+        "csi_award":     "Best Innovative Project",
+    },
+    "available": True,
+}
+```
+
+---
+
+## ✦ Features
+
+<table>
+<tr>
+<td width="50%">
+
+**🎨 Visual System**
+- WebGL fluid cursor simulation (SplashCursor)
+- Custom neon dot + spring-lag cursor ring
+- Interactive particle constellation network
+- Hero name auto-glitch every ~7s
+- CRT scanlines overlay
+- Animated floating orbs with CSS keyframes
+- Scroll progress indicator
+
+</td>
+<td width="50%">
+
+**⚡ Interactions**
+- Boot sequence loader with dancing ASCII bot
+- Fully interactive terminal with 15+ commands
+- Tab-completion + arrow key history in terminal
+- 3D perspective tilt on all cards
+- Role typewriter cycling through 5 titles
+- Proximity text effect on hero name
+- Konami code easter egg (`↑↑↓↓←→←→BA`)
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+**🔊 Audio**
+- Synthesized SFX engine (Web Audio API, no files)
+- Jazz music engine — generative chord progressions
+- Boot chime on startup
+- Hover / click / card sfx
+- Toggle on/off — on by default
+
+</td>
+<td width="50%">
+
+**🚀 Engineering**
+- Next.js 16 App Router + React 19
+- GSAP ScrollTrigger section reveals
+- Active section tracking via IntersectionObserver
+- Edge runtime OG image (1200×630)
+- Full social/Twitter meta tags
+- Gyroscope tilt on mobile ProfileCard
+- Husky pre-commit + GitHub Actions CI
+
+</td>
+</tr>
+</table>
+
+---
+
+## `$ cat projects.json`
+
+| Project | Achievement | Stack |
+|---------|-------------|-------|
+| 🏆 **Rescue Rover** | Best Innovative — CSI | OpenCV · Tesseract OCR · ML · Python |
+| ⚡ **FluentX Messaging** | 60% latency reduction | Django REST · Redis Channels · WebSockets · Celery |
+| 🧠 **Image Segmentation** | 91% Dice Score | PyTorch · U-Net · TorchScript · Apache Spark |
+| 📧 **AI Email Automation** | Scalable delivery | Gemini API · Amazon SES · Celery · Python |
+
+---
+
+## `$ ls tech-stack/`
+
+<div align="center">
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+
+![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
+![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
+</div>
+
+---
+
+## `$ git clone && npm run dev`
 
 ```bash
+# Clone
+git clone https://github.com/shah48l/shahid-next.git
+cd shahid-next
+
+# Install
 npm install
+
+# Dev server → http://localhost:3000
 npm run dev
 ```
 
-Open `http://localhost:3000`.
-
-## Available Scripts
+### Available scripts
 
 ```bash
-npm run dev     # Start the local dev server
-npm run build   # Create a production build
-npm run start   # Run the production server
-npm run lint    # Run ESLint
+npm run dev         # Start dev server (Turbopack)
+npm run build       # Production build
+npm run start       # Serve production build
+npm run lint        # ESLint
+npm run typecheck   # tsc --noEmit
 ```
 
-## Project Structure
+---
 
-```text
+## `$ tree src/`
+
+```
 src/
 ├── app/
-│   ├── globals.css
-│   ├── layout.tsx
-│   └── page.tsx
+│   ├── globals.css          # Design tokens, animations, utilities
+│   ├── layout.tsx           # Root layout + fonts + metadata
+│   ├── page.tsx             # Page composition
+│   ├── icon.svg             # SJ monogram favicon
+│   └── opengraph-image.tsx  # Edge OG image (1200×630)
+│
 ├── components/
-│   ├── Hero.tsx
-│   ├── JazzToggle.tsx
-│   ├── Loader.tsx
-│   ├── Nav.tsx
-│   ├── Sections.tsx
-│   ├── Terminal.tsx
-│   └── reactbits/
-│       ├── GooeyNav.jsx
-│       ├── SpotlightCard.jsx
-│       ├── StarBorder.jsx
-│       └── ...
+│   ├── Hero.tsx             # Animated hero + proximity text + role typer
+│   ├── Terminal.tsx         # Interactive terminal (15+ commands)
+│   ├── Nav.tsx              # Sticky nav + active section tracking
+│   ├── Loader.tsx           # Boot sequence + dancing ASCII bot
+│   ├── Sections.tsx         # Skills, Experience, Projects, Education, Contact
+│   ├── Cursor.tsx           # Custom neon cursor + spring ring
+│   ├── Particles.tsx        # Canvas particle constellation
+│   ├── TiltInit.tsx         # 3D card tilt via mousemove
+│   ├── KonamiEgg.tsx        # ↑↑↓↓←→←→BA easter egg
+│   ├── JazzToggle.tsx       # SFX + music on/off controls
+│   └── reactbits/           # SpotlightCard, StarBorder, Magnet, SplashCursor…
+│
 ├── data/
-│   └── portfolio.ts
+│   └── portfolio.ts         # ← Single source of truth for all content
+│
 ├── hooks/
-│   └── useGsap.ts
+│   └── useGsap.ts           # GSAP + ScrollTrigger setup
+│
 └── lib/
-    └── audio.ts
+    └── audio.ts             # SFXEngine + JazzEngine (Web Audio API)
 ```
 
-## Customizing Content
+---
 
-Most portfolio content is centralized in:
+## `$ cat .env.dreams`
 
-- [src/data/portfolio.ts](/Users/shahidj/Downloads/shahid-next/src/data/portfolio.ts:1)
+```dotenv
+AVAILABLE_FOR_HIRE=true
+LOCATION="Hyderabad, India"
+OPEN_TO="Full-time · Contract · Remote"
+EMAIL="mjshahid48@gmail.com"
+LINKEDIN="linkedin.com/in/shahidj2004"
+```
 
-Update that file to edit:
-
-- Personal details
-- Social links
-- Stats
-- Skills
-- Experience
-- Projects
-- Education
-- Tech logo strip
-
-## Design Notes
-
-This portfolio leans into an intentional visual system rather than a default template:
-
-- Self-hosted Google fonts through `next/font`
-- Animated section reveals with GSAP
-- Spotlight and star-border card treatments
-- Ambient audio controls with a local music asset
-- Layered backgrounds, glow accents, and tactile button styling
-
-## Production Readiness
-
-The codebase is set up with a production deployment flow in mind:
-
-- App Router architecture with a clean `src/` layout
-- Typed data source for portfolio content
-- Local audio asset for reliable playback in production
-- Responsive layout across desktop and mobile
-- Linting support via ESLint
-
-Before deploying, it is still a good idea to:
-
-- Run `npm run lint`
-- Run `npm run build`
-- Verify metadata and social preview settings
-- Review external asset dependencies such as icon/logo CDNs
+---
 
 ## Deployment
 
-The app can be deployed on any platform that supports Next.js, including:
+The app ships with config for all major platforms:
 
-- Vercel
-- Netlify
-- Render
-- Docker-based infrastructure
-
-Typical production flow:
+| Platform | Config | Notes |
+|----------|--------|-------|
+| **Vercel** | `vercel.json` | Zero-config, recommended |
+| **Netlify** | `netlify.toml` | `@netlify/plugin-nextjs` |
+| **Render** | `render.yaml` | Singapore region, Node 20 |
+| **Docker** | `Dockerfile` | Non-root user, `HOSTNAME=0.0.0.0` |
 
 ```bash
-npm install
-npm run build
-npm run start
+# Docker
+docker build -t shahid-portfolio .
+docker run -p 3000:3000 shahid-portfolio
 ```
 
-## Credits
+---
 
-Music used in the interface:
+## Customize
 
-- "Lobby Time" by Kevin MacLeod (`incompetech.com`)
+All portfolio content lives in one file — **[`src/data/portfolio.ts`](src/data/portfolio.ts)**
 
-License attribution should follow the official Incompetech requirements for that track.
+Edit `PROFILE`, `STATS`, `SKILLS`, `EXPERIENCE`, `PROJECTS`, `EDUCATION`, and `TECH_LOGOS` there.
 
-## License
+---
 
-This project is licensed under the MIT License unless you choose to apply a different license for your personal portfolio.
+## `$ sudo hire me`
+
+```
+[sudo] password for recruiter: ••••••••
+Authenticating…
+✓ GRANTED
+
+🎉 Excellent choice. Impeccable taste.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📧  mjshahid48@gmail.com
+💼  linkedin.com/in/shahidj2004
+🐙  github.com/shah48l
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Let's ship something great together.
+```
+
+---
+
+<div align="center">
+
+**Designed & built by Shahid J · © 2026**
+
+_If you made it this far — try the Konami code on the live site_ 👾
+
+</div>
