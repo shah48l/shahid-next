@@ -4,30 +4,64 @@
 @import "../components/reactbits/ProfileCard.css";
 
 @layer base {
-  html { scrollbar-width: thin; scrollbar-color: #00ffaa #060609; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+  html { scrollbar-width: thin; scrollbar-color: #00ffaa22 transparent; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
   body { background: #060609; color: #f0ece6; overflow-x: hidden; }
   ::selection { background: #00ffaa; color: #060609; }
 }
 
 :root { --mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace; }
 
-.noise { position: fixed; inset: 0; z-index: 9999; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E"); }
-.grid-bg { position: fixed; inset: 0; z-index: 0; background-image: linear-gradient(rgba(0,255,170,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,170,.025) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 100%); }
-.scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, #00ffaa, #5eaaff); z-index: 1001; transform-origin: left; will-change: transform; }
+/* ── Noise overlay ── */
+.noise {
+  position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.025'/%3E%3C/svg%3E");
+}
 
-/* GooeyNav color overrides for our theme */
+/* ── Grid ── */
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(0,255,170,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,170,.018) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 20%, transparent 100%);
+}
+
+/* ── Scroll progress ── */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; height: 1.5px;
+  background: linear-gradient(90deg, #00ffaa, #5eaaff, #b18cff);
+  z-index: 1001; transform-origin: left; will-change: transform;
+  box-shadow: 0 0 8px rgba(0,255,170,0.4);
+}
+
+/* ── Floating orb animation ── */
+@keyframes orb-float-a { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(18px,-22px) scale(1.04); } }
+@keyframes orb-float-b { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-14px,18px) scale(0.97); } }
+@keyframes orb-float-c { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(10px,14px) scale(1.03); } }
+.orb-a { animation: orb-float-a 12s ease-in-out infinite; }
+.orb-b { animation: orb-float-b 16s ease-in-out infinite; }
+.orb-c { animation: orb-float-c 10s ease-in-out infinite; }
+
+/* ── LogoLoop fade edges ── */
+.logo-loop-track {
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+}
+
+/* ── GooeyNav ── */
 .gooey-nav-container { --color-1: #00ffaa; --color-2: #5eaaff; --color-3: #b18cff; --color-4: #00e5e5; }
 .gooey-nav-container nav ul { color: #b8b5ad; }
 .gooey-nav-container nav ul li a { text-decoration: none; font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; }
 .gooey-nav-container nav ul li.active { color: #060609; }
 
-/* SpotlightCard overrides */
+/* ── SpotlightCard ── */
 .card-spotlight { border-radius: 16px; }
 
-/* ProfileCard theme overrides */
+/* ── ProfileCard ── */
 .profile-card { --bg-color: #12121c; }
 
-/* Nav link — sliding green underline on hover */
+/* ── Nav link — sliding neon underline ── */
 .nav-link {
   position: relative;
   color: #5a5851;
@@ -36,46 +70,139 @@
 .nav-link::after {
   content: '';
   position: absolute;
-  bottom: 3px;
-  left: 50%;
-  width: 55%;
-  height: 1.5px;
+  bottom: 3px; left: 50%;
+  width: 55%; height: 1.5px;
   background: linear-gradient(90deg, transparent, #00ffaa, transparent);
   border-radius: 2px;
-  box-shadow: 0 0 8px rgba(0, 255, 170, 0.55);
+  box-shadow: 0 0 8px rgba(0,255,170,0.55);
   transform: translateX(-50%) scaleX(0);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
 }
-.nav-link:hover {
-  color: #e8e4de;
-}
-.nav-link:hover::after {
-  transform: translateX(-50%) scaleX(1);
-}
-
-/* Active section — underline stays on + brighter glow */
-.nav-link.active {
-  color: #00ffaa;
-}
+.nav-link:hover { color: #e8e4de; }
+.nav-link:hover::after { transform: translateX(-50%) scaleX(1); }
+.nav-link.active { color: #00ffaa; }
 .nav-link.active::after {
   transform: translateX(-50%) scaleX(1);
   background: linear-gradient(90deg, transparent, #00ffaa, transparent);
-  box-shadow: 0 0 14px rgba(0, 255, 170, 0.8);
+  box-shadow: 0 0 14px rgba(0,255,170,0.8);
 }
 
-/* Music icon spin */
+/* ── Music icon spin ── */
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Loader boot prompt blink */
-@keyframes loader-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.15; } }
+/* ── Loader boot blink ── */
+@keyframes loader-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.15; } }
 .loader-blink { animation: loader-blink 1.2s step-start infinite; }
 
-/* Experience card hover lift */
+/* ── Experience card hover ── */
 .exp-card-inner {
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 .exp-card-inner:hover {
   transform: translateY(-5px);
-  border-color: rgba(0, 255, 170, 0.12) !important;
-  box-shadow: 0 36px 90px rgba(0, 0, 0, 0.36), 0 0 0 1px rgba(0, 255, 170, 0.06) !important;
+  border-color: rgba(0,255,170,0.14) !important;
+  box-shadow: 0 36px 90px rgba(0,0,0,0.36), 0 0 0 1px rgba(0,255,170,0.07) !important;
+}
+
+/* ── Timeline dot pulse ── */
+@keyframes dot-pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(0,255,170,0.4), 0 0 16px rgba(0,255,170,0.12); }
+  50% { box-shadow: 0 0 0 6px rgba(0,255,170,0), 0 0 24px rgba(0,255,170,0.2); }
+}
+.tl-dot-pulse { animation: dot-pulse 2.8s ease-in-out infinite; }
+
+/* ── Hero CTA primary button shimmer ── */
+@keyframes btn-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.btn-primary {
+  position: relative;
+  background: #00ffaa !important;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.25s ease !important;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.28) 50%, transparent 60%);
+  background-size: 200% 100%;
+  animation: btn-shimmer 3.5s linear infinite;
+  pointer-events: none;
+}
+.btn-primary:hover {
+  box-shadow: 0 0 40px rgba(0,255,170,0.35), 0 8px 24px rgba(0,255,170,0.15) !important;
+  transform: translateY(-2px);
+}
+
+/* ── Skill icon glow badge ── */
+.skill-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: rgba(0,255,170,0.06);
+  border: 1px solid rgba(0,255,170,0.1);
+  margin-bottom: 20px;
+  font-size: 26px;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.sk-wrap:hover .skill-icon-wrap {
+  background: rgba(0,255,170,0.1);
+  border-color: rgba(0,255,170,0.22);
+}
+
+/* ── Section heading accent ── */
+.sh-accent {
+  display: inline-block;
+  width: 3px; height: 22px;
+  background: linear-gradient(180deg, #00ffaa, #5eaaff);
+  border-radius: 2px;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+/* ── Footer gradient top border ── */
+.footer-border {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,255,170,0.15) 30%, rgba(94,170,255,0.1) 70%, transparent);
+}
+
+/* ── Signature card top shine ── */
+.sig-card-shine {
+  position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,142,85,0.5), rgba(255,200,120,0.3), rgba(255,142,85,0.5), transparent);
+  border-radius: 1px;
+}
+
+/* ── CRT scanlines overlay ── */
+.crt-lines {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.045) 2px, rgba(0,0,0,0.045) 4px);
+}
+
+/* ── Custom cursor — hide on touch devices ── */
+@media (hover: hover) and (pointer: fine) {
+  *, *::before, *::after { cursor: none !important; }
+}
+
+/* ── Konami overlay ── */
+@keyframes konami-in { from { opacity: 0; transform: scale(0.88); } to { opacity: 1; transform: scale(1); } }
+.konami-overlay {
+  position: fixed; inset: 0; z-index: 99999;
+  background: rgba(6,6,9,0.96);
+  display: flex; align-items: center; justify-content: center;
+  animation: konami-in 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes konami-flicker { 0%,100%{opacity:1} 50%{opacity:0.85} }
+.konami-terminal {
+  font-family: var(--mono); color: #00ffaa;
+  border: 1px solid rgba(0,255,170,0.25);
+  border-radius: 16px;
+  padding: 40px 48px;
+  max-width: 560px; width: 90%;
+  background: rgba(12,12,24,0.98);
+  box-shadow: 0 0 80px rgba(0,255,170,0.12), inset 0 1px 0 rgba(255,255,255,0.03);
+  animation: konami-flicker 3s ease-in-out infinite;
 }

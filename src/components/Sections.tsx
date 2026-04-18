@@ -16,7 +16,14 @@ const PhSvg = () => <svg width="20" height="20" fill="none" stroke="currentColor
 function SH({ num, title, center }: { num: string; title: string; center?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => { if (!ref.current) return; const ctx = gsap.context(() => { gsap.from(ref.current!.children, { scrollTrigger: { trigger: ref.current!, start: "top 90%" }, y: 30, opacity: 0, duration: 0.7, stagger: 0.1, ease: "expo.out" }); }, ref.current); return () => ctx.revert(); }, []);
-  return <div ref={ref} className={`flex items-center gap-4 mb-14 ${center ? "justify-center" : ""}`}><span style={{ ...mono, fontSize: 16, color: "#00ffaa", fontWeight: 500 }}>{num}</span><h2 style={{ fontSize: 32, fontWeight: 700, letterSpacing: "-0.04em" }}>{title}</h2>{!center && <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, #1f1f30, transparent)" }} />}</div>;
+  return (
+    <div ref={ref} className={`flex items-center gap-4 mb-14 ${center ? "justify-center" : ""}`}>
+      {!center && <span className="sh-accent" />}
+      <span style={{ ...mono, fontSize: 13, color: "#00ffaa88", fontWeight: 500, letterSpacing: "0.06em" }}>{num}</span>
+      <h2 style={{ fontSize: 30, fontWeight: 700, letterSpacing: "-0.04em" }}>{title}</h2>
+      {!center && <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, rgba(31,31,48,0.8), transparent)" }} />}
+    </div>
+  );
 }
 
 // ═══ LOGO LOOP ═══
@@ -30,8 +37,8 @@ export function LogoLoop() {
     return () => ctx.revert();
   }, []);
   return (
-    <div className="py-4 overflow-hidden relative z-[1]" style={{ borderTop: "1px solid #1f1f30", borderBottom: "1px solid #1f1f30" }}>
-      <div ref={ref} className="flex gap-10 w-max">
+    <div className="logo-loop-track py-5 overflow-hidden relative z-[1]" style={{ borderTop: "1px solid rgba(31,31,48,0.6)", borderBottom: "1px solid rgba(31,31,48,0.6)" }}>
+      <div ref={ref} className="flex gap-12 w-max">
         {TECH_LOGOS.map(t => (
           <span key={t.name} className="flex items-center gap-3 flex-shrink-0 whitespace-nowrap" style={{ ...mono, fontSize: 13, color: "#7a7872" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -56,8 +63,8 @@ export function Skills() {
           <div key={s.name} className="sk-wrap h-full" onMouseEnter={() => sfx?.playCardHover()}>
             <SpotlightCard className="h-full" spotlightColor="rgba(0,255,170,0.15)">
               <div className="p-7 md:p-8 h-full" style={{ background: "transparent", borderRadius: 16 }}>
-                <span className="text-[32px] block mb-5 w-fit">{s.icon}</span>
-                <h3 className="text-[22px] font-semibold mb-3" style={{ color: "#f0ece6" }}>{s.name}</h3>
+                <div className="skill-icon-wrap">{s.icon}</div>
+                <h3 className="text-[20px] font-semibold mb-3" style={{ color: "#f0ece6" }}>{s.name}</h3>
                 <p className="text-[15px] leading-7 mb-6" style={{ color: "#c0bbb2" }}>{s.desc}</p>
                 <div className="flex flex-wrap gap-1.5">
                   {s.tags.map(t => <span key={t} className="px-3 py-1.5 rounded-md" style={{ ...mono, fontSize: 11, background: "rgba(19,24,34,0.92)", border: "1px solid rgba(56,65,82,0.72)", color: "#9da5b2" }}>{t}</span>)}
@@ -82,7 +89,7 @@ export function Experience() {
         <div className="absolute left-0 top-0 bottom-0 w-0.5" style={{ background: "linear-gradient(180deg, rgba(0,255,170,0.12), #1f1f30 20%, #1f1f30 80%, transparent)" }} />
         {EXPERIENCE.map(exp => (
           <div key={exp.company} className="tl-item pl-12 mb-14 relative" onMouseEnter={() => sfx?.playHover()}>
-            <div className="tl-dot absolute -left-[7px] top-1.5 w-4 h-4 rounded-full" style={{ background: "#060609", border: "2px solid #00ffaa", boxShadow: "0 0 16px rgba(0,255,170,0.12)" }} />
+            <div className="tl-dot tl-dot-pulse absolute -left-[7px] top-1.5 w-4 h-4 rounded-full" style={{ background: "#060609", border: "2px solid #00ffaa" }} />
             <div className="rounded-[22px] p-6 md:p-7 exp-card-inner" style={{ background: "linear-gradient(180deg, rgba(14,16,24,0.9), rgba(8,9,15,0.96))", border: "1px solid rgba(31,31,48,0.9)", boxShadow: "0 24px 70px rgba(0,0,0,0.18)" }}>
               <div style={{ ...mono, fontSize: 12, color: "#00ffaa", letterSpacing: "0.08em", marginBottom: 10 }}>{exp.period.toUpperCase()}</div>
               <h3 style={{ fontSize: 24, fontWeight: 700, marginBottom: 6 }}>{exp.company}</h3>
@@ -195,13 +202,14 @@ export function SignatureCard() {
   return (
     <section id="contact" className="py-20 md:py-28 px-5 md:px-10 max-w-[1280px] mx-auto">
       <div
-        className="rounded-[32px] px-6 py-8 md:px-10 md:py-12"
+        className="rounded-[32px] px-6 py-8 md:px-10 md:py-12 relative overflow-hidden"
         style={{
-          background: "linear-gradient(180deg, rgba(14,10,12,0.96), rgba(8,8,12,0.98))",
-          border: "1px solid rgba(90,56,48,0.6)",
-          boxShadow: "0 30px 100px rgba(0,0,0,0.24)",
+          background: "linear-gradient(160deg, rgba(18,10,8,0.97), rgba(8,8,14,0.99))",
+          border: "1px solid rgba(90,56,48,0.5)",
+          boxShadow: "0 40px 120px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,142,85,0.08)",
         }}
       >
+        <div className="sig-card-shine" />
         <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="max-w-[560px]">
             <div

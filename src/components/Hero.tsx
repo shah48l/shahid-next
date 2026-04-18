@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/hooks/useGsap";
 import { PROFILE, STATS } from "@/data/portfolio";
 import { sfx } from "@/lib/audio";
@@ -10,11 +10,16 @@ const MailSvg = () => <svg width="16" height="16" fill="none" stroke="currentCol
 const GhSvg = () => <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>;
 const LiSvg = () => <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.064 2.064 0 110-4.128 2.064 2.064 0 010 4.128zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>;
 
+const GLITCH_CHARS = "!@#$%^&*<>?/\\|{}[]~`±§";
+function randGlitch() { return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)]; }
+
 function ProximityText({ text }: { text: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   useEffect(() => {
     const el = ref.current; if (!el) return;
     const chars = el.querySelectorAll<HTMLSpanElement>(".px");
+
+    // Proximity effect
     const handler = (e: MouseEvent) => {
       chars.forEach(ch => {
         const r = ch.getBoundingClientRect();
@@ -24,9 +29,63 @@ function ProximityText({ text }: { text: string }) {
       });
     };
     document.addEventListener("mousemove", handler);
-    return () => document.removeEventListener("mousemove", handler);
-  }, []);
+
+    // Auto-glitch every ~7s
+    const glitch = () => {
+      const original = [...text];
+      let frame = 0;
+      const total = 10;
+      const iv = setInterval(() => {
+        frame++;
+        chars.forEach((ch, i) => {
+          if (frame < total * 0.6) {
+            ch.textContent = Math.random() < 0.4 ? randGlitch() : (original[i] === " " ? "\u00A0" : original[i]);
+            ch.style.color = Math.random() < 0.3 ? "#ff3399" : "";
+          } else {
+            ch.textContent = original[i] === " " ? "\u00A0" : original[i];
+            ch.style.color = "";
+          }
+        });
+        if (frame >= total) clearInterval(iv);
+      }, 50);
+    };
+    const tid = setInterval(glitch, 7000 + Math.random() * 3000);
+    return () => { document.removeEventListener("mousemove", handler); clearInterval(tid); };
+  }, [text]);
   return <span ref={ref} aria-label={text}>{[...text].map((c, i) => <span key={i} className="px inline-block transition-all duration-150">{c === " " ? "\u00A0" : c}</span>)}</span>;
+}
+
+const ROLES = ["Backend Engineer", "Django / FastAPI Dev", "API Architect", "ML Integrator", "Python Craftsman"];
+
+function RoleTyper() {
+  const [idx, setIdx] = useState(0);
+  const [displayed, setDisplayed] = useState(ROLES[0]);
+  const [phase, setPhase] = useState<"wait" | "del" | "type">("wait");
+
+  useEffect(() => {
+    const role = ROLES[idx];
+    if (phase === "wait") {
+      const t = setTimeout(() => setPhase("del"), 2800);
+      return () => clearTimeout(t);
+    }
+    if (phase === "del") {
+      if (displayed.length === 0) { setIdx(i => (i + 1) % ROLES.length); setPhase("type"); return; }
+      const t = setTimeout(() => setDisplayed(d => d.slice(0, -1)), 32);
+      return () => clearTimeout(t);
+    }
+    if (phase === "type") {
+      if (displayed.length === role.length) { setPhase("wait"); return; }
+      const t = setTimeout(() => setDisplayed(role.slice(0, displayed.length + 1)), 55);
+      return () => clearTimeout(t);
+    }
+  }, [displayed, phase, idx]);
+
+  return (
+    <span>
+      {displayed}
+      <span style={{ color: "#00ffaa", fontWeight: 200, opacity: 0.8, animation: "loader-blink 1s step-start infinite" }}>_</span>
+    </span>
+  );
 }
 
 function Counter({ value, label }: { value: number; label: string }) {
@@ -70,7 +129,7 @@ export default function Hero() {
           </div>
           <h1 className="mb-6 md:mb-7" style={{ fontSize: "clamp(3.5rem,9vw,8.25rem)", fontWeight: 800, lineHeight: 0.92, letterSpacing: "-0.05em" }}>
             <span className="h-nm block" style={{ color: "#f0ece6" }}><ProximityText text={PROFILE.name} /></span>
-            <span className="h-rl block" style={{ color: "#00ffaa" }}>{PROFILE.role}</span>
+            <span className="h-rl block" style={{ color: "#00ffaa" }}><RoleTyper /></span>
             <span className="h-sb block mt-3" style={{ fontWeight: 300, fontSize: "0.4em", color: "#6f6b65" }}>{PROFILE.tagline}</span>
           </h1>
           <p className="h-desc max-w-[620px] mb-9 md:mb-10" style={{ fontSize: 19, lineHeight: 1.8, color: "#c6c1b8", fontWeight: 300 }}>
@@ -78,12 +137,17 @@ export default function Hero() {
             I craft <strong style={{ color: "#f0ece6", fontWeight: 500 }}>real-time, production-grade APIs</strong> and integrate Machine Learning at scale.
           </p>
           <div className="flex flex-wrap gap-3.5">
-            <Magnet padding={60} magnetStrength={3}><a href="#contact" className={btnBase} style={{ ...mono, fontSize: 14, fontWeight: 600, background: "#00ffaa", color: "#060609", boxShadow: "0 0 30px rgba(0,255,170,0.15)" }} onMouseEnter={() => sfx?.playHover()} onClick={() => sfx?.playClick()}><MailSvg /> Get in touch</a></Magnet>
+            <Magnet padding={60} magnetStrength={3}><a href="#contact" className={`${btnBase} btn-primary`} style={{ ...mono, fontSize: 14, fontWeight: 600, color: "#060609", boxShadow: "0 0 30px rgba(0,255,170,0.15)" }} onMouseEnter={() => sfx?.playHover()} onClick={() => sfx?.playClick()}><MailSvg /> Get in touch</a></Magnet>
             <Magnet padding={60} magnetStrength={3}><a href={PROFILE.github} target="_blank" rel="noopener" className={btnBase} style={{ ...mono, fontSize: 14, color: "#f0ece6", border: "1px solid #1f1f30", background: "rgba(18,18,28,0.72)" }} onMouseEnter={() => sfx?.playHover()} onClick={() => sfx?.playClick()}><GhSvg /> GitHub</a></Magnet>
             <Magnet padding={60} magnetStrength={3}><a href={PROFILE.linkedin} target="_blank" rel="noopener" className={btnBase} style={{ ...mono, fontSize: 14, color: "#f0ece6", border: "1px solid #1f1f30", background: "rgba(18,18,28,0.72)" }} onMouseEnter={() => sfx?.playHover()} onClick={() => sfx?.playClick()}><LiSvg /> LinkedIn</a></Magnet>
           </div>
-          <div className="flex flex-wrap gap-8 md:gap-14 pt-9 mt-11" style={{ borderTop: "1px solid #1f1f30" }}>
-            {STATS.map(s => <div key={s.label} className="h-stat"><Counter value={s.value} label={s.label} /></div>)}
+          <div className="flex flex-wrap gap-8 md:gap-10 pt-9 mt-11" style={{ borderTop: "1px solid rgba(31,31,48,0.7)" }}>
+            {STATS.map((s, i) => (
+              <div key={s.label} className="h-stat flex items-start gap-8 md:gap-10">
+                <Counter value={s.value} label={s.label} />
+                {i < STATS.length - 1 && <div className="hidden sm:block w-px self-stretch" style={{ background: "linear-gradient(180deg, transparent, rgba(31,31,48,0.9), transparent)" }} />}
+              </div>
+            ))}
           </div>
         </div>
         <div className="h-term w-full lg:w-auto flex-shrink-0"><Terminal /></div>
